@@ -1,5 +1,8 @@
 package com.techzen.academy_n1224c1.employee;
 
+import com.techzen.academy_n1224c1.dto.ApiReponse;
+import com.techzen.academy_n1224c1.exception.ApiException;
+import com.techzen.academy_n1224c1.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,18 +11,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/Employees")
 public class EmployeeController {
-    private List<Employee> employees = new ArrayList<Employee>(
+    private List<Employee> employees = new ArrayList<>(
             Arrays.asList(
-                    new Employee(1,"thanh", LocalDate.of(2003,11,22), Employee.Gender.Nữ,14000000),
-                    new Employee(2,"linh", LocalDate.of(2003,7,4), Employee.Gender.Nữ,15000000),
-                    new Employee(3,"Hai", LocalDate.of(2005,9,30), Employee.Gender.Nam,15000000)
+                    new Employee(1, "Truyền", LocalDate.of(2003, 12, 12), Employee.Gender.Nữ, 5050000),
+                    new Employee(2, "Thảo", LocalDate.of(2003, 7, 7), Employee.Gender.Nữ, 5644000),
+                    new Employee(3, "Mai", LocalDate.of(2005, 9, 30), Employee.Gender.Nam, 3443000)
             )
-
     );
+
+    private AtomicInteger idCounter = new AtomicInteger(4);
 
     @GetMapping
     public List<Employee> listEmployee() {
@@ -27,47 +32,69 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable("id") int id) {
+    public ResponseEntity<ApiReponse<Employee>> getEmployee(@PathVariable("id") int id) {
         for (Employee employee : employees) {
-            if(employee.getId()==id) {
-
-                return ResponseEntity.ok(employee);
+            if (employee.getId() == id) {
+                return ResponseEntity.ok(ApiReponse.<Employee>builder()
+                        .data(employee)
+                        .build());
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        throw new ApiException(ErrorCode.EMPLOYEE_NOT_EXITS);
+//        return ResponseEntity.status(ErrorCode.EMPLOYEE_NOT_EXITS.getHttpStatus())
+//                .body(ApiReponse.<Employee>builder()
+//                        .code(ErrorCode.EMPLOYEE_NOT_EXITS.getCode())
+//                        .message(ErrorCode.EMPLOYEE_NOT_EXITS.getMessage())
+//                        .build());
     }
 
     @PostMapping
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
-        employee.setId((int) (Math.random() * 1000));
+    public ResponseEntity<ApiReponse<Employee>> addEmployee(@RequestBody Employee employee) {
+        employee.setId(idCounter.getAndIncrement());
         employees.add(employee);
-        return ResponseEntity.ok(employee);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiReponse.<Employee>builder()
+                        .data(employee)
+                        .build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee, @PathVariable("id") int id) {
+    public ResponseEntity<ApiReponse<Employee>> updateEmployee(@RequestBody Employee employee, @PathVariable("id") int id) {
         for (Employee emp : employees) {
-            if(emp.getId()==id) {
+            if (emp.getId() == id) {
                 emp.setTen(employee.getTen());
                 emp.setGioitinh(employee.getGioitinh());
                 emp.setNgaysinh(employee.getNgaysinh());
                 emp.setLuong(employee.getLuong());
-                return ResponseEntity.ok(emp);
+                return ResponseEntity.ok(ApiReponse.<Employee>builder()
+                        .data(emp)
+                        .build());
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        throw new ApiException(ErrorCode.EMPLOYEE_NOT_EXITS);
+//        return ResponseEntity.status(ErrorCode.EMPLOYEE_NOT_EXITS.getHttpStatus())
+//                .body(ApiReponse.<Employee>builder()
+//                        .code(ErrorCode.EMPLOYEE_NOT_EXITS.getCode())
+//                        .message(ErrorCode.EMPLOYEE_NOT_EXITS.getMessage())
+//                        .build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Employee> deleteEmployee(@PathVariable("id") int id) {
+    public ResponseEntity<ApiReponse<Employee>> deleteEmployee(@PathVariable("id") int id) {
         for (int i = 0; i < employees.size(); i++) {
             if (employees.get(i).getId() == id) {
                 Employee deletedEmployee = employees.get(i);
                 employees.remove(i);
-                return ResponseEntity.ok(deletedEmployee);
+                return ResponseEntity.ok(ApiReponse.<Employee>builder()
+                        .data(deletedEmployee)
+                        .build());
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        throw new ApiException(ErrorCode.EMPLOYEE_NOT_EXITS);
+//        return ResponseEntity.status(ErrorCode.EMPLOYEE_NOT_EXITS.getHttpStatus())
+//                .body(ApiReponse.<Employee>builder()
+//                        .code(ErrorCode.EMPLOYEE_NOT_EXITS.getCode())
+//                        .message(ErrorCode.EMPLOYEE_NOT_EXITS.getMessage())
+//                        .build());
     }
-
 }
