@@ -3,6 +3,7 @@ package com.techzen.academy_n1224c1.employee;
 import com.techzen.academy_n1224c1.dto.ApiReponse;
 import com.techzen.academy_n1224c1.exception.ApiException;
 import com.techzen.academy_n1224c1.exception.ErrorCode;
+import com.techzen.academy_n1224c1.exception.JsonResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +36,10 @@ public class EmployeeController {
     public ResponseEntity<ApiReponse<Employee>> getEmployee(@PathVariable("id") int id) {
         for (Employee employee : employees) {
             if (employee.getId() == id) {
-                return ResponseEntity.ok(ApiReponse.<Employee>builder()
-                        .data(employee)
-                        .build());
+                return JsonResponse.ok(employee);
+//                return ResponseEntity.ok(ApiReponse.<Employee>builder()
+//                        .data(employee)
+//                        .build());
             }
         }
         throw new ApiException(ErrorCode.EMPLOYEE_NOT_EXITS);
@@ -52,10 +54,12 @@ public class EmployeeController {
     public ResponseEntity<ApiReponse<Employee>> addEmployee(@RequestBody Employee employee) {
         employee.setId(idCounter.getAndIncrement());
         employees.add(employee);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiReponse.<Employee>builder()
-                        .data(employee)
-                        .build());
+
+        return JsonResponse.create(employee);
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//                .body(ApiReponse.<Employee>builder()
+//                        .data(employee)
+//                        .build());
     }
 
     @PutMapping("/{id}")
@@ -66,9 +70,10 @@ public class EmployeeController {
                 emp.setGioitinh(employee.getGioitinh());
                 emp.setNgaysinh(employee.getNgaysinh());
                 emp.setLuong(employee.getLuong());
-                return ResponseEntity.ok(ApiReponse.<Employee>builder()
-                        .data(emp)
-                        .build());
+                return JsonResponse.ok(employee);
+//                return ResponseEntity.ok(ApiReponse.<Employee>builder()
+//                        .data(emp)
+//                        .build());
             }
         }
         throw new ApiException(ErrorCode.EMPLOYEE_NOT_EXITS);
@@ -85,9 +90,8 @@ public class EmployeeController {
             if (employees.get(i).getId() == id) {
                 Employee deletedEmployee = employees.get(i);
                 employees.remove(i);
-                return ResponseEntity.ok(ApiReponse.<Employee>builder()
-                        .data(deletedEmployee)
-                        .build());
+
+                return ResponseEntity.notFound().build();
             }
         }
         throw new ApiException(ErrorCode.EMPLOYEE_NOT_EXITS);
