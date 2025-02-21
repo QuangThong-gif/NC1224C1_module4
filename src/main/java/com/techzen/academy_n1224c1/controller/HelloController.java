@@ -1,17 +1,6 @@
-package com.techzen.academy_n1224c1;
+package com.techzen.academy_n1224c1.controller;
 
-import com.techzen.academy_n1224c1.dto.ApiReponse;
-import com.techzen.academy_n1224c1.exception.ApiException;
-import com.techzen.academy_n1224c1.exception.ErrorCode;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @RestController
 public class HelloController {

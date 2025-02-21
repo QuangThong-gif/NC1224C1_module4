@@ -1,4 +1,4 @@
-package com.techzen.academy_n1224c1.employee;
+package com.techzen.academy_n1224c1.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -18,8 +18,8 @@ public class Employee {
     private Gender gioitinh;
     private double luong;
     public enum Gender {
-        Nam,
-        Nữ,
-        Khác
+        MALE,
+        FEMALE,
+        OTHER;
     }
 }

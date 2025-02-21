@@ -1,7 +1,7 @@
 package com.techzen.academy_n1224c1.exception;
 
 import com.techzen.academy_n1224c1.dto.ApiReponse;
-import com.techzen.academy_n1224c1.employee.Employee;
+import com.techzen.academy_n1224c1.model.Employee;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;

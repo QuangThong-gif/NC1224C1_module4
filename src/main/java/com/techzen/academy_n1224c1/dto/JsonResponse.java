@@ -1,7 +1,6 @@
-package com.techzen.academy_n1224c1.exception;
+package com.techzen.academy_n1224c1.dto;
 
-import com.techzen.academy_n1224c1.dto.ApiReponse;
-import com.techzen.academy_n1224c1.employee.Employee;
+import com.techzen.academy_n1224c1.model.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
