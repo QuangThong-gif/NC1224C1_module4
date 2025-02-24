@@ -18,11 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmployeeController {
-//    @Autowired // DI => Tiêm sư phụ thuộc vào
     IEmployeesService employeesService;
-//    private EmployeeReponsitory employeeReponsitory = new EmployeeReponsitory();
-
-//    private AtomicInteger idCounter = new AtomicInteger(4);
 
     @GetMapping
     public List<Employee> listEmployee() {
@@ -40,7 +36,6 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<ApiReponse<Employee>> addEmployee(@RequestBody Employee employee) {
-//        employee.setId(idCounter.getAndIncrement());
         employeesService.addEmployee(employee);
 
         return ResponseEntity.ok(ApiReponse.<Employee>builder().data(employee).build());

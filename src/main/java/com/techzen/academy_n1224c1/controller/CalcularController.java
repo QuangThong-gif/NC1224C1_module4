@@ -13,7 +13,6 @@ public class CalcularController {
             @RequestParam(value = "secondNumber", defaultValue = "") String secondNumberStr,
             @RequestParam(value = "operator", defaultValue = "") String operator) {
 
-        // Kiểm tra đầu vào
         if (firstNumberStr.isEmpty()) {
             return ResponseEntity.badRequest().body("First number cannot be empty.");
         } else if (secondNumberStr.isEmpty()) {
@@ -24,11 +23,10 @@ public class CalcularController {
             return ResponseEntity.badRequest().body("Second number must be numeric.");
         }
 
-        // Chuyển String thành double
         double firstNumber = Double.parseDouble(firstNumberStr);
         double secondNumber = Double.parseDouble(secondNumberStr);
         double result;
-        // Thực hiện tính toán
+
         switch (operator) {
             case "+" -> result = firstNumber + secondNumber;
             case "-" -> result = firstNumber - secondNumber;
@@ -44,7 +42,6 @@ public class CalcularController {
             }
         }
 
-// Trả về kết quả
         return ResponseEntity.ok("Result: " + result);
     }
 

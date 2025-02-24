@@ -13,10 +13,10 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Employee {
     private int id;
-    private String ten;
-    private LocalDate ngaysinh;
-    private Gender gioitinh;
-    private double luong;
+    private String name;
+    private LocalDate date;
+    private Gender gender;
+    private double salary;
     public enum Gender {
         MALE,
         FEMALE,

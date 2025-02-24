@@ -25,7 +25,7 @@ public class EmployeeReponsitory implements IEmployeesReponsitory {
     public List<Employee> getEmployees(String name) {
         List<Employee> result = new ArrayList<>();
         for (Employee employee : employees) {
-            if (employee.getTen().equalsIgnoreCase(name)) {
+            if (employee.getName().equalsIgnoreCase(name)) {
                 result.add(employee);
             }
         }
@@ -48,10 +48,10 @@ public class EmployeeReponsitory implements IEmployeesReponsitory {
     public boolean updateById(int id, Employee updatedEmployee) {
         for (Employee emp : employees) {
             if (emp.getId() == id) {
-                emp.setTen(updatedEmployee.getTen());
-                emp.setGioitinh(updatedEmployee.getGioitinh());
-                emp.setNgaysinh(updatedEmployee.getNgaysinh());
-                emp.setLuong(updatedEmployee.getLuong());
+                emp.setName(updatedEmployee.getName());
+                emp.setGender(updatedEmployee.getGender());
+                emp.setDate(updatedEmployee.getDate());
+                emp.setSalary(updatedEmployee.getSalary());
                 return true;
             }
         }
